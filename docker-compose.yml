@@ -1,0 +1,20 @@
+name: lead-ai-lab
+services:
+  opensearch: # S09 — search
+    image: opensearchproject/opensearch:2.18.0
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true # local lab only — never in production
+      - DISABLE_INSTALL_DEMO_CONFIG=true
+      - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
+    ports: ["9200:9200"]
+  redpanda: # S14 — Kafka-compatible streaming
+    image: docker.redpanda.com/redpandadata/redpanda:v24.2.7
+    command:
+      - redpanda
+      - start
+      - --mode dev-container
+      - --smp 1
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+    ports: ["19092:19092"]

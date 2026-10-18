@@ -1,3 +1,4 @@
 data/
 .venv/
 mlruns/
+.DS_Store
